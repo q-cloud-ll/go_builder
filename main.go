@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	"project/dao/mysql"
-	"project/dao/redis"
 	"project/logger"
+	"project/router"
 	"project/setting"
 )
 
@@ -31,18 +30,27 @@ func main() {
 		return
 	}
 
-	// 初始化mysql
-	if err := mysql.Init(setting.Conf.MySQLConfig); err != nil {
-		fmt.Printf("init mysql failed, err:%v\n", err)
-		return
-	}
-	defer mysql.Close()
+	//// 初始化mysql
+	//if err := mysql.Init(setting.Conf.MySQLConfig); err != nil {
+	//	fmt.Printf("init mysql failed, err:%v\n", err)
+	//	return
+	//}
+	//defer mysql.Close()
+	//
+	//// 初始化redis
+	//if err := redis.Init(setting.Conf.RedisConfig); err != nil {
+	//	fmt.Printf("init redis failed, err:%v\n", err)
+	//	return
+	//}
+	//defer redis.Close()
 
-	// 初始化redis
-	if err := redis.Init(setting.Conf.RedisConfig); err != nil {
-		fmt.Printf("init redis failed, err:%v\n", err)
+	// 初始化注册路由
+	r := router.SetupRouter(setting.Conf.Mode)
+	setting.RunWindowServer(r)
+	err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port))
+	if err != nil {
+		fmt.Printf("run server failed, err:%v\n", err)
 		return
 	}
-	defer redis.Close()
 
 }
