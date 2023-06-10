@@ -1,0 +1,4 @@
+name: "go_builder"
+mode: "dev"
+port: 8888
+version: "v0.0.1"
