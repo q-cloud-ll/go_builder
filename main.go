@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"project/dao/mysql"
+	"project/dao/redis"
 	"project/logger"
 	"project/setting"
 )
@@ -22,9 +24,25 @@ func main() {
 		fmt.Printf("load config failed, err:%v\n", err)
 		return
 	}
+
 	// 初始化日志
 	if err := logger.Init(setting.Conf.LogConfig, setting.Conf.Mode); err != nil {
 		fmt.Printf("init logger failed, err:%v\n", err)
 		return
 	}
+
+	// 初始化mysql
+	if err := mysql.Init(setting.Conf.MySQLConfig); err != nil {
+		fmt.Printf("init mysql failed, err:%v\n", err)
+		return
+	}
+	defer mysql.Close()
+
+	// 初始化redis
+	if err := redis.Init(setting.Conf.RedisConfig); err != nil {
+		fmt.Printf("init redis failed, err:%v\n", err)
+		return
+	}
+	defer redis.Close()
+
 }
