@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"project/controller"
 	"project/middlewares"
 
 	"project/logger"
@@ -33,9 +34,7 @@ func SetupRouter(mode string) *gin.Engine {
 
 	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
-		v1.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"msg": "Hello,go_builder!"})
-		})
+		v1.POST("/signup", controller.SignUpHandler)
 	}
 
 	// ---------------- 使用jwt鉴权接口路由 ---------------
