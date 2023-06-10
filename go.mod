@@ -7,10 +7,12 @@ require (
 	github.com/fvbock/endless v0.0.0-20170109170031-447134032cb6
 	github.com/gin-gonic/gin v1.9.1
 	github.com/go-redis/redis/v8 v8.11.5
+	github.com/golang-jwt/jwt/v4 v4.5.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/natefinch/lumberjack v2.0.0+incompatible
 	github.com/spf13/viper v1.16.0
 	go.uber.org/zap v1.21.0
+	golang.org/x/sync v0.1.0
 )
 
 require (

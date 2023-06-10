@@ -32,12 +32,13 @@ const (
 	CodeDeleteOperationFail
 	// CodeInsertOperationFail 新增操作失败
 	CodeInsertOperationFail
+	// CodeInvalidParam 参数错误
 	CodeInvalidParam
 
 	/*
 	   1011-1050 例如登录注册相关
 	*/
-
+	CodeNoLogin ResCode = 1011 + iota
 )
 
 /*
@@ -56,6 +57,8 @@ var codeMsgMap = map[ResCode]string{
 	CodeDeleteOperationFail: "删除操作失败！",
 	CodeInsertOperationFail: "新增操作失败！",
 	CodeInvalidParam:        "请求参数错误",
+
+	CodeNoLogin: "未登陆",
 }
 
 func (c ResCode) Msg() string {

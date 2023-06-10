@@ -2,6 +2,7 @@ package router
 
 import (
 	"net/http"
+	"project/middlewares"
 
 	"project/logger"
 
@@ -30,13 +31,20 @@ func SetupRouter(mode string) *gin.Engine {
 
 	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	// 自定义路由组
 	v1 := r.Group("/api/v1")
+	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
 		v1.GET("/", func(c *gin.Context) {
 			c.JSON(http.StatusOK, "Hello,go_builder!")
 		})
 	}
 
+	// ---------------- 使用jwt鉴权接口路由 ---------------
+	v1.Use(middlewares.JWTAuth())
+	{
+
+	}
 	//pprof.Register(r) // 注册pprof相关路由
 
 	r.NoRoute(func(c *gin.Context) {
