@@ -25,18 +25,16 @@ func SetupRouter(mode string) *gin.Engine {
 		c.HTML(http.StatusOK, "index.html", nil)
 	})
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(http.StatusOK, "pong")
-	})
-
-	//r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// 如果有跨域问题，请打开下一行
+	r.Use(middlewares.Cors())
 
 	// 自定义路由组
 	v1 := r.Group("/api/v1")
+
 	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
 		v1.GET("/", func(c *gin.Context) {
-			c.JSON(http.StatusOK, "Hello,go_builder!")
+			c.JSON(http.StatusOK, gin.H{"msg": "Hello,go_builder!"})
 		})
 	}
 
