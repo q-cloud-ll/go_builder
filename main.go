@@ -5,6 +5,7 @@ import (
 	"project/logger"
 	"project/router"
 	"project/setting"
+	"project/utils/snowflake"
 )
 
 // @title go_builder
@@ -43,6 +44,12 @@ func main() {
 	//	return
 	//}
 	//defer redis.Close()
+
+	// 初始化雪花算法
+	if err := snowflake.Init(setting.Conf.StartTime, setting.Conf.MachineID); err != nil {
+		fmt.Printf("init snowflake failed, err:%v\n", err)
+		return
+	}
 
 	// 初始化注册路由
 	r := router.SetupRouter(setting.Conf.Mode)
