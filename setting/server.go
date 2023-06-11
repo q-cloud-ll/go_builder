@@ -30,12 +30,12 @@ func RunWindowServer(router *gin.Engine) {
 	// In order to ensure that the text order output can be deleted
 	time.Sleep(10 * time.Microsecond)
 	zap.L().Info("server run success on ", zap.String("address", address))
-
+	csdn := "https://blog.csdn.net/weixin_51991615"
 	fmt.Printf(`
 	欢迎使用 go_builder
 	当前版本:v0.0.1
 	简介：主要为了快速搭建小型项目的脚手架
-	默认自动化文档地址:http://127.0.0.1%s/swagger/index.html
-`, address)
+	Up主博客地址：%s
+`, csdn)
 	zap.L().Error(s.ListenAndServe().Error())
 }

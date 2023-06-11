@@ -21,3 +21,7 @@ func SignUpService(u *model.UserParamReq) (err error) {
 
 	return mysql.CreateUser(user)
 }
+
+func SignInService(u *model.User) (err error) {
+	return mysql.SignIn(u)
+}

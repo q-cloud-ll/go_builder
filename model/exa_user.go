@@ -11,3 +11,8 @@ type UserParamReq struct {
 	UserName string `json:"user_name"`
 	Password string `json:"password"`
 }
+
+type UserSignIn struct {
+	Token     string `json:"token"`
+	ExpiresAt int64  `json:"expiresAt"`
+}

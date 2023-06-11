@@ -35,6 +35,7 @@ func SetupRouter(mode string) *gin.Engine {
 	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
 		v1.POST("/signup", controller.SignUpHandler)
+		v1.POST("signin", controller.SignInHandler)
 	}
 
 	// ---------------- 使用jwt鉴权接口路由 ---------------

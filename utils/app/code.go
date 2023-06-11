@@ -39,6 +39,7 @@ const (
 	   1011-1050 例如登录注册相关
 	*/
 	CodeNoLogin ResCode = 1011 + iota
+	CodeUserNameOrPasswordFail
 )
 
 /*
@@ -58,7 +59,8 @@ var codeMsgMap = map[ResCode]string{
 	CodeInsertOperationFail: "新增操作失败！",
 	CodeInvalidParam:        "请求参数错误",
 
-	CodeNoLogin: "未登陆",
+	CodeNoLogin:                "未登陆",
+	CodeUserNameOrPasswordFail: "用户名或密码错误",
 }
 
 func (c ResCode) Msg() string {
