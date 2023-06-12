@@ -1,4 +1,5 @@
-# golang:1.19-alpine 这个版本号和自己的go.mod 对应，如果不一致可能会出现镜像构建失败，go和gomod有版本差
+# 注意：golang:1.19-alpine 这个版本号和自己的go.mod 对应，如果不一致可能会出现镜像构建失败，go和gomod有版本差
+
 FROM golang:1.19-alpine as builder
 WORKDIR /app/src/go_builder
 COPY . .

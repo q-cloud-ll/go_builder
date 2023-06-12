@@ -1,0 +1,98 @@
+version: '3'
+
+# 声明一个名为forum_net的networks，subnet为forum_net的子网地址，默认网关是172.20.0.0
+networks:
+  network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ！！！！！！！！！！！！！！！ <===注意事项===>  ！！！！！！！！！！！！！！！
+# 1、mysql：填写自己的database、password和 注意数据挂载改为自己的目录
+# 2、redis：数据挂载到自己的目录 ----  注意command中的命令，里面是输入redis密码和开启aof，如果不需要可删除这行！
+# 3、最终实际项目访问端口是nginx代理出去的<-:9000->端口
+
+services:
+  server:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    container_name: go_builder_server
+    restart: always
+    depends_on:
+      - mysql
+      - redis
+    links:
+      - mysql
+      - redis
+    networks:
+      network:
+        ipv4_address: 172.20.0.12
+  mysql:
+    image: mysql:8.0.21
+    container_name: go_builder_mysql
+    environment:
+      # 时区上海 - Time zone Shanghai (Change if needed)
+      TZ: Asia/Shanghai
+      MYSQL_DATABASE: ''
+      # root 密码 - root password
+      MYSQL_ROOT_PASSWORD: ''
+    ports:
+      - "13306:3306"
+    volumes:
+      # 数据挂载 - Data mounting
+      - /Users/mac/docker/go_builder_mysql/data:/var/lib/mysql
+      - /Users/mac/docker/go_builder_mysql/conf.d:/etc/mysql/conf.d
+      # 日志
+    command:
+      # 将mysql8.0默认密码策略 修改为 原先 策略 (mysql8.0对其默认策略做了更改 会导致密码无法匹配)
+      # Modify the Mysql 8.0 default password strategy to the original strategy (MySQL8.0 to change its default strategy will cause the password to be unable to match)
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    privileged: true
+    restart: always
+    networks:
+      network:
+        ipv4_address: 172.20.0.13
+
+  redis:
+    image: redis:6.2.5
+    container_name: go_builder_redis
+    ports:
+      - "16379:6379"
+    environment:
+      # 时区上海 - Time zone Shanghai (Change if needed)
+      TZ: Asia/Shanghai
+    volumes:
+      - /Users/mac/docker/go_builder_redis/data:/data
+      - /Users/mac/docker/go_builder_redis/redis.conf:/etc/redis/redis.conf
+    command: "redis-server --requirepass your_password --appendonly yes"
+    privileged: true
+    restart: always
+    networks:
+      network:
+        ipv4_address: 172.20.0.14
+
+  nginx-gateway:
+    image: nginx:1.21.5
+    container_name: go_builder_nginx_gateway
+    restart: always
+    privileged: true
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - "9000:8081"
+    volumes:
+      - ./deploy/nginx/conf.d:/etc/nginx/conf.d
+      - ./deploy/nginx/log:/var/log/nginx
+    networks:
+      network:
+        ipv4_address: 172.20.0.15
+    links:
+      - server
+    depends_on:
+      - server
