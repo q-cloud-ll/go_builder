@@ -51,4 +51,14 @@
 | `--app`       | 全局响应       | 返回json数据的封装，success & failed         |
 | `--snowflake` | 雪花算法工具包 | 生成int64的id                                |
 
+## 三、docker的使用
+#### 1、使用dockerfile制作镜像
+`docker build -t go_builder .` 构建镜像
+#### 2、使用docker-compose一键编排项目
+`docekr-compose up` 一键启动项目 
+
+`docker-compose stop` 一键关闭项目
+
+
+
 ## 欢迎大家提issue！！！
