@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/go-sql-driver/mysql"
+
 	"github.com/gin-gonic/gin"
 
 	"github.com/fsnotify/fsnotify"
@@ -17,6 +19,7 @@ type AppConfig struct {
 	Name             string `mapstructure:"name"`
 	Mode             string `mapstructure:"mode"`
 	Version          string `mapstructure:"version"`
+	DbType           string `mapstructure:"db-type"`
 	Port             int    `mapstructure:"port"`
 	*CORS            `mapstructure:"cors"`
 	*JWT             `mapstructure:"jwt"`
@@ -55,10 +58,23 @@ type MySQLConfig struct {
 	Host         string `mapstructure:"host"`
 	User         string `mapstructure:"user"`
 	Password     string `mapstructure:"password"`
-	DB           string `mapstructure:"dbname"`
-	Port         int    `mapstructure:"port"`
+	DbName       string `mapstructure:"dbname"`
+	Config       string `mapstructure:"config"`
+	Port         string `mapstructure:"port"`
+	Prefix       string `mapstructure:"prefix"` //全局表前缀，单独定义TableName则不生效
+	Engine       string `mapstructure:"engine" default:"InnoDB"`
+	LogMode      string `mapstructure:"log_mode"`
+	LogZap       bool   `mapstructure:"log_zap"`
+	Singular     bool   `mapstructure:"singular"` //是否开启全局禁用复数，true表示开启
 	MaxOpenConns int    `mapstructure:"max_open_conns"`
 	MaxIdleConns int    `mapstructure:"max_idle_conns"`
+}
+
+func (m *MySQLConfig) Dsn() string {
+	dsn := m.User + ":" + m.Password + "@tcp(" + m.Host + ":" + m.Port + ")/" + m.DbName + "?" + m.Config
+	cfg, _ := mysql.ParseDSN(dsn)
+
+	return cfg.FormatDSN()
 }
 
 type RedisConfig struct {

@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"project/initialize"
 	"project/logger"
 	"project/router"
 	"project/setting"
@@ -31,19 +32,24 @@ func main() {
 		return
 	}
 
-	//// 初始化mysql
+	// 初始化mysql
 	//if err := mysql.Init(setting.Conf.MySQLConfig); err != nil {
 	//	fmt.Printf("init mysql failed, err:%v\n", err)
 	//	return
 	//}
 	//defer mysql.Close()
-	//
+
 	//// 初始化redis
 	//if err := redis.Init(setting.Conf.RedisConfig); err != nil {
 	//	fmt.Printf("init redis failed, err:%v\n", err)
 	//	return
 	//}
 	//defer redis.Close()
+
+	if err := initialize.Gorm(); err != nil {
+		fmt.Printf("init gorm-mysql failed, err:%v\n", err)
+		return
+	}
 
 	// 初始化雪花算法
 	if err := snowflake.Init(setting.Conf.StartTime, setting.Conf.MachineID); err != nil {

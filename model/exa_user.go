@@ -2,9 +2,9 @@ package model
 
 type User struct {
 	BaseModel
-	UserId   int64  `json:"user" db:"user_id"`
-	UserName string `json:"user_name" db:"user_name"`
-	Password string `json:"password" db:"password"`
+	UserId   int64  `json:"user" gorm:"index;comment:用户id"`
+	UserName string `json:"user_name" gorm:"index;comment:用户名"`
+	Password string `json:"password" gorm:"not null;comment:密码"`
 }
 
 type UserParamReq struct {

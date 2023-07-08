@@ -1,6 +1,7 @@
 name: "go_builder"
 mode: "dev"
 port: 8888
+db-type: "mysql"
 version: "v0.0.1"
 
 # jwt configuration

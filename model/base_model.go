@@ -1,11 +1,14 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type BaseModel struct {
-	ID         int64     `json:"-" db:"id"`
-	CreateTime time.Time `json:"create_time" db:"create_time"`
-	UpdateTime time.Time `json:"update_time" db:"update_time"`
-	DeleteTime time.Time `json:"-" db:"delete_time"`
-	DeleteSate int       `json:"-" db:"delete_sate"`
+	ID        uint           `gorm:"primarykey"` // 主键ID
+	CreatedAt time.Time      // 创建时间
+	UpdatedAt time.Time      // 更新时间
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"` // 删除时间
 }
