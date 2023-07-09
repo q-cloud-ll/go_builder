@@ -2,6 +2,7 @@ package setting
 
 import (
 	"fmt"
+	"project/utils"
 
 	"go.uber.org/zap"
 
@@ -24,6 +25,9 @@ func initServer(address string, router *gin.Engine) server {
 }
 
 func RunWindowServer(router *gin.Engine) {
+	if err := utils.InitTrans("zh"); err != nil {
+		panic(fmt.Errorf("failed to initialize translator: %v", err))
+	}
 	address := fmt.Sprintf(":%d", Conf.Port)
 	s := initServer(address, router)
 	// 保证文本顺序输出
