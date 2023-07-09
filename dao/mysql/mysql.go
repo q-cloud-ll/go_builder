@@ -2,6 +2,7 @@ package mysql
 
 import (
 	"errors"
+	"project/initialize/initdb"
 	"project/setting"
 
 	"gorm.io/driver/mysql"
@@ -10,7 +11,7 @@ import (
 
 var db *gorm.DB
 
-func GormMysql() error {
+func GormMysql() (err error) {
 	m := setting.Conf.MySQLConfig
 	if m.DbName == "" {
 		return errors.New("db name cannot be empty")
@@ -24,37 +25,15 @@ func GormMysql() error {
 		SkipInitializeWithVersion: false,   // 根据当前 MySQL 版本自动配置
 	}
 
-	if sdb, err := gorm.Open(mysql.New(mysqlCfg), &gorm.Config{}); err != nil {
+	if db, err = gorm.Open(mysql.New(mysqlCfg), &gorm.Config{}); err != nil {
 		return err
 	} else {
-		sdb.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)
-		sqlDB, _ := sdb.DB()
+		db.InstanceSet("gorm:table_options", "ENGINE="+m.Engine)
+		sqlDB, _ := db.DB()
 		sqlDB.SetMaxIdleConns(m.MaxIdleConns)
 		sqlDB.SetMaxOpenConns(m.MaxOpenConns)
-		db = sdb
 
+		initdb.INITPTR[db] = struct{}{}
 		return nil
 	}
 }
-
-//var db *sqlx.DB
-//
-//// Init 初始化MySQL连接
-//func Init(cfg *setting.MySQLConfig) (err error) {
-//	// "user:password@tcp(host:port)/dbname"
-//	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?parseTime=true&loc=Local", cfg.User, cfg.Password, cfg.Host, cfg.Port, cfg.DB)
-//	db, err = sqlx.Connect("mysql", dsn)
-//	if err != nil {
-//		return
-//	}
-//	db.SetMaxOpenConns(cfg.MaxOpenConns)
-//	db.SetMaxIdleConns(cfg.MaxIdleConns)
-//	return
-//}
-//
-//// Close 关闭MySQL连接
-//func Close() {
-//	_ = db.Close()
-//}
-
-// gorm connect database.

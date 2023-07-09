@@ -2,7 +2,10 @@ package main
 
 import (
 	"fmt"
+	"project/dao/redis"
+	"project/global"
 	"project/initialize"
+	"project/initialize/initdb"
 	"project/logger"
 	"project/router"
 	"project/setting"
@@ -25,27 +28,20 @@ func main() {
 		fmt.Printf("load config failed, err:%v\n", err)
 		return
 	}
-
+	initdb.INITPTR = make(map[interface{}]struct{})
 	// 初始化日志
 	if err := logger.Init(setting.Conf.LogConfig, setting.Conf.Mode); err != nil {
 		fmt.Printf("init logger failed, err:%v\n", err)
 		return
 	}
 
-	// 初始化mysql
-	//if err := mysql.Init(setting.Conf.MySQLConfig); err != nil {
-	//	fmt.Printf("init mysql failed, err:%v\n", err)
-	//	return
-	//}
-	//defer mysql.Close()
+	// 初始化redis
+	if err := redis.Init(setting.Conf.RedisConfig); err != nil {
+		fmt.Printf("init redis failed, err:%v\n", err)
+		return
+	}
 
-	//// 初始化redis
-	//if err := redis.Init(setting.Conf.RedisConfig); err != nil {
-	//	fmt.Printf("init redis failed, err:%v\n", err)
-	//	return
-	//}
-	//defer redis.Close()
-
+	// 初始化gorm
 	if err := initialize.Gorm(); err != nil {
 		fmt.Printf("init gorm-mysql failed, err:%v\n", err)
 		return
@@ -57,11 +53,22 @@ func main() {
 		return
 	}
 
+	if initdb.INITPTR != nil {
+		initdb.InitDbPtr(initdb.INITPTR)
+	}
+
+	if global.GB_MDB != nil {
+		initialize.RegisterTables()
+		db, _ := global.GB_MDB.DB()
+
+		defer db.Close()
+	}
+
 	// 初始化注册路由
 	r := router.SetupRouter(setting.Conf.Mode)
 	setting.RunWindowServer(r)
-	err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port))
-	if err != nil {
+
+	if err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port)); err != nil {
 		fmt.Printf("run server failed, err:%v\n", err)
 		return
 	}

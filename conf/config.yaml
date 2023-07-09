@@ -38,20 +38,19 @@ log:
   max_backups: 7
 
 mysql:
-  host: 124.221.205.130
-  port: 13306
-  user: root
-  password: forum123
-  dbname: forum_server
-  config: charset=utf8mb4&parseTime=true&loc=Local
-  log-mode: "debug"
-  log-zap: false
-  max_idle_conns: 10
-  max_open_conns: 100
-
-redis:
   host:
   port:
-  password: ""
-  db: 0
-  pool_size: 100
+  user:
+  password:
+  dbname:
+  config:
+  log-mode:
+  log-zap:
+  max_idle_conns:
+  max_open_conns:
+
+redis:
+  addr:
+  password:
+  db:
+  pool_size:

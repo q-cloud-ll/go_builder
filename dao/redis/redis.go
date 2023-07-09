@@ -3,6 +3,7 @@ package redis
 import (
 	"context"
 	"os"
+	"project/initialize/initdb"
 	"project/setting"
 	"sync"
 
@@ -16,10 +17,10 @@ var (
 	rdb  *redis.Client
 )
 
-func Init(redisCfg *setting.RedisConfig) error {
+func Init(redisCfg *setting.RedisConfig) (err error) {
 	once.Do(func() {
 		rdb = redis.NewClient(&redis.Options{
-			Addr:     redisCfg.Host,
+			Addr:     redisCfg.Addr,
 			Password: redisCfg.Password,
 			DB:       redisCfg.DB,
 		})
@@ -30,12 +31,10 @@ func Init(redisCfg *setting.RedisConfig) error {
 			return
 		} else {
 			zap.L().Info("redis connect ping response:", zap.String("pong", pong))
+
+			initdb.INITPTR[rdb] = struct{}{}
 		}
 	})
 
-	return nil
-}
-
-func Close() {
-	_ = rdb.Close()
+	return
 }

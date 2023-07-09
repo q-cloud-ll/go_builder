@@ -78,9 +78,8 @@ func (m *MySQLConfig) Dsn() string {
 }
 
 type RedisConfig struct {
-	Host         string `mapstructure:"host"`
+	Addr         string `mapstructure:"addr"`
 	Password     string `mapstructure:"password"`
-	Port         int    `mapstructure:"port"`
 	DB           int    `mapstructure:"db"`
 	PoolSize     int    `mapstructure:"pool_size"`
 	MinIdleConns int    `mapstructure:"min_idle_conns"`
