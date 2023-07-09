@@ -9,6 +9,7 @@ import (
 	"project/logger"
 	"project/router"
 	"project/setting"
+	"project/setting/server"
 	"project/utils/snowflake"
 )
 
@@ -66,7 +67,7 @@ func main() {
 
 	// 初始化注册路由
 	r := router.SetupRouter(setting.Conf.Mode)
-	setting.RunWindowServer(r)
+	server.RunWindowServer(r)
 
 	if err := r.Run(fmt.Sprintf(":%d", setting.Conf.Port)); err != nil {
 		fmt.Printf("run server failed, err:%v\n", err)
