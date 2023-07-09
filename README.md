@@ -2,7 +2,7 @@
 
 ### 1、项目技术使用
 
-**gin+sqlx+redis**，后续会引入需要的技术
+**gin+gorm+redis**，后续会引入需要的技术
 
 ### 2、项目目的
 
@@ -19,6 +19,9 @@
 ├── controller
 ├── dao
 ├── deploy
+├── global
+├── initialize
+    └── initdb
 ├── logger
 ├── middlewares
 ├── model
@@ -33,23 +36,25 @@
 
 
 
-| 文件夹        | 说明           | 描述                                         |
-| ------------- | -------------- | -------------------------------------------- |
-| `conf`        | 配置包         | 放置配置文件，例：config.yaml                |
-| `controller`  | api层          | 程序入口层                                   |
-| `dao`         | dao层          | 数据层，操作mysql及redis                     |
-| `deploy`      | 外来配置工具包 | 配置nginx.conf、sql建表、script脚本等        |
-| `logger`      | 日志包         | 初始化日志文件                               |
-| `middlewares` | 中间件         | 自定义关于gin的中间件，例如jwt、cors等       |
-| `middleware`  | 中间件层       | 用于存放 `gin` 中间件代码                    |
-| `model`       | 模型层         | 入参出参对应的struct、表对应的struct         |
-| `--request`   | 入参结构体     | 系统结构入参、业务入参出参数放入一个文件即可 |
-| `router`      | 路由层         | 用于放入全局路由                             |
-| `service`     | 逻辑层         | 用于放入业务逻辑                             |
-| `setting`     | 配置项         | yaml配置映射为结构体                         |
-| `utils`       | 工具包         | 自定义工具使用                               |
-| `--app`       | 全局响应       | 返回json数据的封装，success & failed         |
-| `--snowflake` | 雪花算法工具包 | 生成int64的id                                |
+| 文件夹           | 说明      | 描述                           |
+|---------------|---------|------------------------------|
+| `conf`        | 配置包     | 放置配置文件，例：config.yaml         |
+| `controller`  | api层    | 程序入口层                        |
+| `dao`         | dao层    | 数据层，操作mysql及redis            |
+| `deploy`      | 外来配置工具包 | 配置nginx.conf、sql建表、script脚本等 |
+| `global`      | 全局化变量   | 配置全局变量、sql、redis等            |
+| `initialize`  | 初始化数据   | 初始化全局所需要的数据                  |
+| `logger`      | 日志包     | 初始化日志文件                      |
+| `middlewares` | 中间件     | 自定义关于gin的中间件，例如jwt、cors等     |
+| `middleware`  | 中间件层    | 用于存放 `gin` 中间件代码             |
+| `model`       | 模型层     | 入参出参对应的struct、表对应的struct     |
+| `--request`   | 入参结构体   | 系统结构入参、业务入参出参数放入一个文件即可       |
+| `router`      | 路由层     | 用于放入全局路由                     |
+| `service`     | 逻辑层     | 用于放入业务逻辑                     |
+| `setting`     | 配置项     | yaml配置映射为结构体                 |
+| `utils`       | 工具包     | 自定义工具使用                      |
+| `--app`       | 全局响应    | 返回json数据的封装，success & failed |
+| `--snowflake` | 雪花算法工具包 | 生成int64的id                   |
 
 ## 三、docker的使用
 #### 1、使用dockerfile制作镜像
