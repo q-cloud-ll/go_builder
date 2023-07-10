@@ -16,7 +16,7 @@
 
 ```shell
 ├── conf
-├── controller
+├── api
 ├── dao
 ├── deploy
 ├── global

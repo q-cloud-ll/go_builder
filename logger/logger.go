@@ -44,9 +44,7 @@ func Init(cfg *setting.LogConfig, mode string) (err error) {
 
 	zap.ReplaceGlobals(lg)
 	zap.L().Info("init logger success")
-
 	initdb.INITPTR[lg] = struct{}{}
-
 	return
 }
 

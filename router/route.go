@@ -2,7 +2,7 @@ package router
 
 import (
 	"net/http"
-	"project/controller"
+	"project/api"
 	"project/middlewares"
 
 	"project/logger"
@@ -34,8 +34,8 @@ func SetupRouter(mode string) *gin.Engine {
 
 	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
-		v1.POST("/signup", controller.SignUpHandler)
-		v1.POST("signin", controller.SignInHandler)
+		v1.POST("/signup", api.SignUpHandler)
+		v1.POST("signin", api.SignInHandler)
 	}
 
 	// ---------------- 使用jwt鉴权接口路由 ---------------
