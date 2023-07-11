@@ -6,6 +6,7 @@ import (
 	"net/http/httputil"
 	"os"
 	"project/initialize/initdb"
+	"project/repository/es"
 	"project/setting"
 	"runtime/debug"
 	"strings"
@@ -37,14 +38,18 @@ func Init(cfg *setting.LogConfig, mode string) (err error) {
 			zapcore.NewCore(consoleEncoder, zapcore.Lock(os.Stdout), zapcore.DebugLevel),
 		)
 	} else {
-		core = zapcore.NewCore(encoder, writeSyncer, l)
+		hook := es.EsHookLog()
+		core = zapcore.NewTee(
+			hook,
+			zapcore.NewCore(encoder, writeSyncer, l),
+		)
 	}
 
 	lg = zap.New(core, zap.AddCaller())
-
 	zap.ReplaceGlobals(lg)
 	zap.L().Info("init logger success")
 	initdb.INITPTR[lg] = struct{}{}
+
 	return
 }
 

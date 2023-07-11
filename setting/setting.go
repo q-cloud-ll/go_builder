@@ -25,8 +25,15 @@ type AppConfig struct {
 	*JWT             `mapstructure:"jwt"`
 	*SnowflakeConfig `mapstructure:"snowflake"`
 	*LogConfig       `mapstructure:"log"`
+	*EsConfig        `mapstructure:"es"`
 	*MySQLConfig     `mapstructure:"mysql"`
 	*RedisConfig     `mapstructure:"redis"`
+}
+
+type EsConfig struct {
+	EsHost  string `mapstructure:"es_host"`
+	EsPort  string `mapstructure:"es_port"`
+	EsIndex string `mapstructure:"es_index"`
 }
 
 type JWT struct {
