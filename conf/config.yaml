@@ -42,6 +42,13 @@ es:
   es_port: 9200
   es_index: mylog
 
+rabbitmq:
+  rabbitmq_host: 124.221.205.130
+  rabbitmq_port: 5672
+  rabbitmq: amqp
+  rabbitmq_user: root
+  rabbitmq_password: 11223344
+
 mysql:
   host: 124.221.205.130
   port: 13306

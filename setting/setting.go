@@ -27,8 +27,17 @@ type AppConfig struct {
 	*SnowflakeConfig `mapstructure:"snowflake"`
 	*LogConfig       `mapstructure:"log"`
 	*EsConfig        `mapstructure:"es"`
+	*RabbitMqConfig  `mapstructure:"rabbitmq"`
 	*MySQLConfig     `mapstructure:"mysql"`
 	*RedisConfig     `mapstructure:"redis"`
+}
+
+type RabbitMqConfig struct {
+	RabbitMQ         string `mapstructure:"rabbitmq"`
+	RabbitMQUser     string `mapstructure:"rabbitmq_user"`
+	RabbitMQPassWord string `mapstructure:"rabbitmq_password"`
+	RabbitMQHost     string `mapstructure:"rabbitmq_host"`
+	RabbitMQPort     string `mapstructure:"rabbitmq_port"`
 }
 
 type EsConfig struct {
