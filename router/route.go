@@ -5,6 +5,7 @@ import (
 	"project/middlewares"
 	"project/setting"
 
+	api "project/api/v1"
 	"project/logger"
 
 	"github.com/gin-gonic/gin"
@@ -35,7 +36,7 @@ func SetupRouter() *gin.Engine {
 
 	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
-		//v1.POST("/signup", api.SignUpHandler)
+		v1.POST("/signup", api.UserRegisterHandler)
 		//v1.POST("signin", api.SignInHandler)
 	}
 
