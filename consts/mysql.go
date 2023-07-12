@@ -1,4 +1,4 @@
-package mysql
+package consts
 
 import "errors"
 

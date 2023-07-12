@@ -1,4 +1,4 @@
-package setting
+package consts
 
 const (
 	ConfigEnv         = "GB_CONFIG"

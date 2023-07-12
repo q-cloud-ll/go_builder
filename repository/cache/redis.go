@@ -13,18 +13,20 @@ import (
 )
 
 var (
-	once sync.Once
-	Rdb  *redis.Client
+	once         sync.Once
+	RedisClient  *redis.Client
+	RedisContext = context.Background()
 )
 
-func InitRedis(redisCfg *setting.RedisConfig) {
+func InitRedis() {
+	rConfig := setting.Conf.RedisConfig
 	once.Do(func() {
-		Rdb = redis.NewClient(&redis.Options{
-			Addr:     redisCfg.Addr,
-			Password: redisCfg.Password,
-			DB:       redisCfg.DB,
+		RedisClient = redis.NewClient(&redis.Options{
+			Addr:     rConfig.Addr,
+			Password: rConfig.Password,
+			DB:       rConfig.DB,
 		})
-		pong, err := Rdb.Ping(context.Background()).Result()
+		pong, err := RedisClient.Ping(RedisContext).Result()
 		if err != nil {
 			logging.Error("redis connect ping failed, err:", zap.Error(err))
 			os.Exit(0)

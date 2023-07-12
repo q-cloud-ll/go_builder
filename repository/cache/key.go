@@ -1,4 +1,4 @@
-package redis
+package cache
 
 // PreFix 项目redis统一前缀
 const PreFix = "go_builder:"

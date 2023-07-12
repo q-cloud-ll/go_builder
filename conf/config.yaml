@@ -7,8 +7,8 @@ version: "v0.0.1"
 # jwt configuration
 jwt:
   signing-key: q-cloud-ll
-  expires-time: 7d
-  buffer-time: 1d
+  access-expire: 1d
+  refresh-expire: 7d
   issuer: q-cloud-ll
 
 cors:

@@ -21,11 +21,14 @@ import (
 var lg *zap.Logger
 
 // Init 初始化lg
-func Init(cfg *setting.LogConfig, mode string) (err error) {
-	writeSyncer := getLogWriter(cfg.Filename, cfg.MaxSize, cfg.MaxBackups, cfg.MaxAge)
+func Init() (err error) {
+	lConfig := setting.Conf.LogConfig
+	mode := setting.Conf.Mode
+
+	writeSyncer := getLogWriter(lConfig.Filename, lConfig.MaxSize, lConfig.MaxBackups, lConfig.MaxAge)
 	encoder := getEncoder()
 	var l = new(zapcore.Level)
-	err = l.UnmarshalText([]byte(cfg.Level))
+	err = l.UnmarshalText([]byte(lConfig.Level))
 	if err != nil {
 		return
 	}

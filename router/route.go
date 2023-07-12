@@ -3,6 +3,7 @@ package router
 import (
 	"net/http"
 	"project/middlewares"
+	"project/setting"
 
 	"project/logger"
 
@@ -10,7 +11,8 @@ import (
 )
 
 // SetupRouter 路由
-func SetupRouter(mode string) *gin.Engine {
+func SetupRouter() *gin.Engine {
+	mode := setting.Conf.Mode
 	if mode == gin.ReleaseMode {
 		gin.SetMode(gin.ReleaseMode) // gin设置成发布模式
 	}
