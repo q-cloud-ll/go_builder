@@ -38,24 +38,24 @@ log:
   max_backups: 7
 
 es:
-  es_host:
+  es_host: 124.221.205.130
   es_port: 9200
   es_index: mylog
 
 mysql:
-  host:
-  port:
-  user:
-  password:
-  dbname:
-  config:
-  log-mode:
-  log-zap:
-  max_idle_conns:
-  max_open_conns:
+  host: 124.221.205.130
+  port: 13306
+  user: root
+  password: forum123
+  dbname: supermaket
+  config: charset=utf8mb4&parseTime=true&loc=Local
+  log-mode: "debug"
+  log-zap: false
+  max_idle_conns: 10
+  max_open_conns: 100
 
 redis:
-  addr:
-  password:
-  db:
-  pool_size:
+  addr: 124.221.205.130:16379
+  password: forum123
+  db: 0
+  pool_size: 100

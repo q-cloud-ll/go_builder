@@ -2,7 +2,6 @@ package utils
 
 import (
 	"fmt"
-	"project/model"
 	"reflect"
 	"strings"
 
@@ -33,7 +32,7 @@ func InitTrans(locale string) (err error) {
 		})
 
 		// 为SignUpParam注册自定义校验方法
-		v.RegisterStructValidation(SignUpParamStructLevelValidation, model.User{})
+		//v.RegisterStructValidation(SignUpParamStructLevelValidation, model.User{})
 
 		zhT := zh.New() // 中文翻译器
 		enT := en.New() // 英文翻译器

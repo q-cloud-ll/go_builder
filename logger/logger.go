@@ -5,7 +5,6 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"os"
-	"project/initialize/initdb"
 	"project/repository/es"
 	"project/setting"
 	"runtime/debug"
@@ -51,7 +50,6 @@ func Init() (err error) {
 	lg = zap.New(core, zap.AddCaller())
 	zap.ReplaceGlobals(lg)
 	zap.L().Info("init logger success")
-	initdb.INITPTR[lg] = struct{}{}
 
 	return
 }
