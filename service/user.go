@@ -3,30 +3,32 @@ package service
 import (
 	"context"
 	"project/consts"
-	"project/repository/db/dao"
+	"project/logger"
 	"project/repository/db/model"
+	"project/service/svc"
 	"project/types"
-	"sync"
+	"project/utils/jwt"
+	"project/utils/snowflake"
+
+	"go.uber.org/zap"
 )
 
-type UserSrv struct{}
-
-var (
-	UserSrvIns  *UserSrv
-	UserSrvOnce sync.Once
-)
-
-func GetUserSrv() *UserSrv {
-	UserSrvOnce.Do(func() {
-		UserSrvIns = &UserSrv{}
-	})
-
-	return UserSrvIns
+type UserSrv struct {
+	ctx    context.Context
+	svcCtx *svc.UserServiceContext
+	log    *zap.Logger
 }
 
-func (s *UserSrv) UserRegisterSrv(ctx context.Context, req *types.UserRegisterReq) (err error) {
-	userDao := dao.NewUserDao(ctx)
-	_, exist, err := userDao.ExistOrNotByUserName(req.UserName)
+func NewUserService(ctx context.Context, svcCtx *svc.UserServiceContext) *UserSrv {
+	return &UserSrv{
+		ctx:    ctx,
+		svcCtx: svcCtx,
+		log:    logger.Lg,
+	}
+}
+
+func (l *UserSrv) UserRegisterSrv(req *types.UserRegisterReq) (err error) {
+	_, exist, err := l.svcCtx.UserModel.ExistOrNotByUserName(l.ctx, req.UserName)
 	if err != nil {
 		return err
 	}
@@ -36,6 +38,7 @@ func (s *UserSrv) UserRegisterSrv(ctx context.Context, req *types.UserRegisterRe
 	user := &model.User{
 		NickName: req.NickName,
 		UserName: req.UserName,
+		UserId:   snowflake.GenID(),
 		Status:   model.Active,
 	}
 	// 加密密码
@@ -44,9 +47,47 @@ func (s *UserSrv) UserRegisterSrv(ctx context.Context, req *types.UserRegisterRe
 	}
 
 	// 创建用户
-	err = userDao.CreateUser(user)
+	err = l.svcCtx.UserModel.CreateUser(l.ctx, user)
 	if err != nil {
 		return consts.UserCreateErr
+	}
+
+	return
+}
+
+func (l *UserSrv) UserLoginSrv(req *types.UserRegisterReq) (resp interface{}, err error) {
+	var user *model.User
+	user, exist, err := l.svcCtx.UserModel.ExistOrNotByUserName(l.ctx, req.UserName)
+
+	if !exist {
+		return nil, consts.UserNotExistErr
+	}
+
+	if !user.CheckPassword(req.Password) {
+		return nil, consts.UserInvalidPasswordErr
+	}
+	b := jwt.BaseClaims{
+		UID:      user.UserId,
+		ID:       user.ID,
+		Username: user.UserName,
+	}
+	accessToken, refreshToken, err := jwt.NewJWT().GenerateToken(b)
+	if err != nil {
+		return nil, err
+	}
+	userResp := &types.UserInfoResp{
+		ID:       user.ID,
+		UserName: user.UserName,
+		NickName: user.NickName,
+		Email:    user.Email,
+		Status:   user.Status,
+		CreateAt: user.CreatedAt.Unix(),
+	}
+
+	resp = &types.UserTokenData{
+		User:         userResp,
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
 	}
 
 	return

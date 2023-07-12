@@ -17,7 +17,7 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
-var lg *zap.Logger
+var Lg *zap.Logger
 
 // Init 初始化lg
 func Init() (err error) {
@@ -47,8 +47,8 @@ func Init() (err error) {
 		)
 	}
 
-	lg = zap.New(core, zap.AddCaller())
-	zap.ReplaceGlobals(lg)
+	Lg = zap.New(core, zap.AddCaller())
+	zap.ReplaceGlobals(Lg)
 	zap.L().Info("init logger success")
 
 	return
@@ -83,7 +83,7 @@ func GinLogger() gin.HandlerFunc {
 		c.Next()
 
 		cost := time.Since(start)
-		lg.Info(path,
+		Lg.Info(path,
 			zap.Int("status", c.Writer.Status()),
 			zap.String("method", c.Request.Method),
 			zap.String("path", path),
@@ -114,7 +114,7 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
 				if brokenPipe {
-					lg.Error(c.Request.URL.Path,
+					Lg.Error(c.Request.URL.Path,
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)
@@ -125,13 +125,13 @@ func GinRecovery(stack bool) gin.HandlerFunc {
 				}
 
 				if stack {
-					lg.Error("[Recovery from panic]",
+					Lg.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 						zap.String("stack", string(debug.Stack())),
 					)
 				} else {
-					lg.Error("[Recovery from panic]",
+					Lg.Error("[Recovery from panic]",
 						zap.Any("error", err),
 						zap.String("request", string(httpRequest)),
 					)

@@ -36,8 +36,8 @@ func SetupRouter() *gin.Engine {
 
 	// ---------------- 不使用jwt鉴权接口路由 ---------------
 	{
-		v1.POST("/signup", api.UserRegisterHandler)
-		//v1.POST("signin", api.SignInHandler)
+		v1.POST("signup", api.UserRegisterHandler)
+		v1.POST("signin", api.UserLoginHandler)
 	}
 
 	// ---------------- 使用jwt鉴权接口路由 ---------------

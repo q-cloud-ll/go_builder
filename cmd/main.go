@@ -6,7 +6,6 @@ import (
 	"project/repository/cache"
 	"project/repository/db/dao"
 	"project/repository/es"
-	"project/repository/rabbitmq"
 	"project/router"
 	"project/setting"
 	"project/setting/server"
@@ -28,8 +27,8 @@ func main() {
 	// 初始化注册路由
 	r := router.SetupRouter()
 	server.RunWindowServer(r)
-	_ = r.Run(fmt.Sprintf(":%d", setting.Conf.Port))
 	fmt.Println("Starting configuration success...")
+	_ = r.Run(fmt.Sprintf(":%d", setting.Conf.Port))
 }
 
 func loadingConfig() {
@@ -38,7 +37,7 @@ func loadingConfig() {
 	dao.InitMysql()
 	cache.InitRedis()
 	es.InitEs()
-	rabbitmq.InitRabbitMQ()
+	//rabbitmq.InitRabbitMQ()
 	snowflake.InitSnowflake()
 	fmt.Println("Loading configuration success...")
 	go scriptStarting()

@@ -33,5 +33,4 @@ func InitRedis() {
 			zap.L().Info("redis connect ping response:", zap.String("pong", pong))
 		}
 	})
-
 }

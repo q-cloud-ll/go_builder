@@ -1,7 +1,6 @@
 package dao
 
 import (
-	"context"
 	"project/setting"
 	"strings"
 	"time"
@@ -63,7 +62,11 @@ func InitMysql() {
 	}
 }
 
-func NewDBClient(ctx context.Context) *gorm.DB {
-	db := _db
-	return db.WithContext(ctx)
+//func NewDBClient(ctx context.Context) *gorm.DB {
+//	db := _db
+//	return db.WithContext(ctx)
+//}
+
+func NewDBClient() *gorm.DB {
+	return _db
 }

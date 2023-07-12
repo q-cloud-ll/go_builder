@@ -7,30 +7,35 @@ import (
 	"gorm.io/gorm"
 )
 
-type GormUserDao interface {
-	CreateUser(user *model.User) error
+var _ UserModel = (*customUserModel)(nil)
+
+type (
+	// UserModel is an interface to be customized, add more methods here,
+	// and implement the added methods in customUserModel.
+	UserModel interface {
+		CreateUser(ctx context.Context, user *model.User) error
+		ExistOrNotByUserName(ctx context.Context, userName string) (user *model.User, exist bool, err error)
+	}
+
+	customUserModel struct {
+		*gorm.DB
+	}
+)
+
+func NewUserModel() UserModel {
+	return &customUserModel{
+		DB: NewDBClient(),
+	}
 }
 
-type UserDao struct {
-	*gorm.DB
-}
-
-func NewUserDao(ctx context.Context) *UserDao {
-	return &UserDao{NewDBClient(ctx)}
-}
-
-func NewUserDaoByDb(db *gorm.DB) *UserDao {
-	return &UserDao{db}
-}
-
-func (dao *UserDao) CreateUser(user *model.User) error {
-	return dao.DB.Model(&model.User{}).Create(&user).Error
+func (dao *customUserModel) CreateUser(ctx context.Context, user *model.User) error {
+	return dao.DB.WithContext(ctx).Model(&model.User{}).Create(&user).Error
 }
 
 // ExistOrNotByUserName 根据username判断是否存在该名字
-func (dao *UserDao) ExistOrNotByUserName(userName string) (user *model.User, exist bool, err error) {
+func (dao *customUserModel) ExistOrNotByUserName(ctx context.Context, userName string) (user *model.User, exist bool, err error) {
 	var count int64
-	err = dao.DB.Model(&model.User{}).Where("user_name = ?", userName).Count(&count).Error
+	err = dao.DB.WithContext(ctx).Model(&model.User{}).Where("user_name = ?", userName).Count(&count).Error
 	if count == 0 {
 		return user, false, err
 	}
