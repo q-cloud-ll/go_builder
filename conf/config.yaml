@@ -38,7 +38,7 @@ log:
   max_backups: 7
 
 es:
-  es_host: 124.221.205.130
+  es_host: 127.0.0.1
   es_port: 9200
   es_index: mylog
 
@@ -48,6 +48,12 @@ rabbitmq:
   rabbitmq: amqp
   rabbitmq_user: root
   rabbitmq_password: 11223344
+
+jaeger:
+  addr: 124.221.205.130:6831
+  type: const
+  param: 1
+  log-spans: true
 
 mysql:
   host: 124.221.205.130

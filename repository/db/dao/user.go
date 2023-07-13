@@ -28,18 +28,18 @@ func NewUserModel() UserModel {
 	}
 }
 
-func (dao *customUserModel) CreateUser(ctx context.Context, user *model.User) error {
-	return dao.DB.WithContext(ctx).Model(&model.User{}).Create(&user).Error
+func (m *customUserModel) CreateUser(ctx context.Context, user *model.User) error {
+	return m.DB.WithContext(ctx).Model(&model.User{}).Create(&user).Error
 }
 
 // ExistOrNotByUserName 根据username判断是否存在该名字
-func (dao *customUserModel) ExistOrNotByUserName(ctx context.Context, userName string) (user *model.User, exist bool, err error) {
+func (m *customUserModel) ExistOrNotByUserName(ctx context.Context, userName string) (user *model.User, exist bool, err error) {
 	var count int64
-	err = dao.DB.WithContext(ctx).Model(&model.User{}).Where("user_name = ?", userName).Count(&count).Error
+	err = m.DB.WithContext(ctx).Model(&model.User{}).Where("user_name = ?", userName).Count(&count).Error
 	if count == 0 {
 		return user, false, err
 	}
-	err = dao.DB.Model(&model.User{}).Where("user_name = ?", userName).First(&user).Error
+	err = m.DB.Model(&model.User{}).Where("user_name = ?", userName).First(&user).Error
 	if err != nil {
 		return user, false, err
 	}

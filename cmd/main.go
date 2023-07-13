@@ -6,6 +6,7 @@ import (
 	"project/repository/cache"
 	"project/repository/db/dao"
 	"project/repository/es"
+	"project/repository/track"
 	"project/router"
 	"project/setting"
 	"project/setting/server"
@@ -38,6 +39,7 @@ func loadingConfig() {
 	cache.InitRedis()
 	es.InitEs()
 	//rabbitmq.InitRabbitMQ()
+	track.InitJaeger()
 	snowflake.InitSnowflake()
 	fmt.Println("Loading configuration success...")
 	go scriptStarting()

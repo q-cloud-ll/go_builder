@@ -27,9 +27,17 @@ type AppConfig struct {
 	*SnowflakeConfig `mapstructure:"snowflake"`
 	*LogConfig       `mapstructure:"log"`
 	*EsConfig        `mapstructure:"es"`
+	*JaegerConfig    `mapstructure:"jaeger"`
 	*RabbitMqConfig  `mapstructure:"rabbitmq"`
 	*MySQLConfig     `mapstructure:"mysql"`
 	*RedisConfig     `mapstructure:"redis"`
+}
+
+type JaegerConfig struct {
+	Addr     string  `mapstructure:"addr"`
+	Type     string  `mapstructure:"type"`
+	Param    float64 `mapstructure:"param"`
+	LogSpans bool    `mapstructure:"log-spans"`
 }
 
 type RabbitMqConfig struct {
