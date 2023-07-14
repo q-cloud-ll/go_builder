@@ -1,6 +1,7 @@
 package track
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"net/http"
@@ -66,4 +67,18 @@ func StartSpan(tracer opentracing.Tracer, name string) opentracing.Span {
 	// 设置顶级span
 	span := tracer.StartSpan(name)
 	return span
+}
+
+func WithSpan(ctx context.Context, name string) (opentracing.Span, context.Context) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, name)
+	return span, ctx
+}
+
+func GetCarrier(span opentracing.Span) (opentracing.HTTPHeadersCarrier, error) {
+	carrier := opentracing.HTTPHeadersCarrier{}
+	err := span.Tracer().Inject(span.Context(), opentracing.HTTPHeaders, carrier)
+	if err != nil {
+		return nil, err
+	}
+	return carrier, nil
 }

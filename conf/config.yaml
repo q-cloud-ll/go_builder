@@ -43,24 +43,24 @@ es:
   es_index: mylog
 
 rabbitmq:
-  rabbitmq_host: 124.221.205.130
+  rabbitmq_host: 127.0.0.1
   rabbitmq_port: 5672
   rabbitmq: amqp
   rabbitmq_user: root
-  rabbitmq_password: 11223344
+  rabbitmq_password: 123456
 
 jaeger:
-  addr: 124.221.205.130:6831
+  addr: 127.0.0.1:6831
   type: const
   param: 1
   log-spans: true
 
 mysql:
-  host: 124.221.205.130
-  port: 13306
+  host: 127.0.0.1
+  port: 3306
   user: root
-  password: forum123
-  dbname: supermaket
+  password: 123456
+  dbname: go_builder
   config: charset=utf8mb4&parseTime=true&loc=Local
   log-mode: "debug"
   log-zap: false
@@ -68,7 +68,7 @@ mysql:
   max_open_conns: 100
 
 redis:
-  addr: 124.221.205.130:16379
-  password: forum123
+  addr: 127.0.0.1:6379
+  password: 123456
   db: 0
   pool_size: 100
