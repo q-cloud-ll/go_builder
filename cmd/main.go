@@ -18,7 +18,7 @@ import (
 // @description 基于Go Web 简易脚手架
 
 // @contact.name camellia
-// @contact.url https://github.com/q-cloud-ll
+// @contact.urls https://github.com/q-cloud-ll
 
 // @host 127.0.0.1:8888
 // @BasePath /api/v1

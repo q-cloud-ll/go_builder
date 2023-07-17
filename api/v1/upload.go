@@ -46,5 +46,5 @@ func UploadFileHandler(c *gin.Context) {
 		return
 	}
 
-	app.ResponseSuccess(c, gin.H{"url": url})
+	app.ResponseSuccess(c, gin.H{"urls": url})
 }
