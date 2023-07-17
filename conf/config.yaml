@@ -72,3 +72,18 @@ redis:
   password: 123456
   db: 0
   pool_size: 100
+
+qiniu-oss:
+  enable: oss
+  zone: ZoneHuaDong
+  bucket: moyuban-oss
+  use-https: false
+  access-key: uoEZIYY7RWonxPew5VRflm4j-G60tAgFFvs5AoDE
+  secret-key: SiAXOWJy2oUjNWxHxKUX12hAVcTM9zooZAfEQPW_
+  img-path: rxx2xz5zb.hd-bkt.clouddn.com
+  use-cdn-domains: false
+
+# 本地文件上传
+local:
+  host:
+  path:

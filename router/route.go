@@ -47,7 +47,7 @@ func SetupRouter() *gin.Engine {
 	// ---------------- 使用jwt鉴权接口路由 ---------------
 	v1.Use(middlewares.JWTAuth())
 	{
-
+		v1.POST("/upload", api.UploadFileHandler)
 	}
 	//pprof.Register(r) // 注册pprof相关路由
 

@@ -25,12 +25,30 @@ type AppConfig struct {
 	*CORS            `mapstructure:"cors"`
 	*JWT             `mapstructure:"jwt"`
 	*SnowflakeConfig `mapstructure:"snowflake"`
+	*QiNiuOssConfig  `mapstructure:"qiniu-oss"`
+	*LocalConfig     `mapstructure:"local"`
 	*LogConfig       `mapstructure:"log"`
 	*EsConfig        `mapstructure:"es"`
 	*JaegerConfig    `mapstructure:"jaeger"`
 	*RabbitMqConfig  `mapstructure:"rabbitmq"`
 	*MySQLConfig     `mapstructure:"mysql"`
 	*RedisConfig     `mapstructure:"redis"`
+}
+
+type LocalConfig struct {
+	Host string `mapstructure:"host"`
+	Path string `mapstructure:"path"`
+}
+
+type QiNiuOssConfig struct {
+	Enable        string `mapstructure:"enable"`
+	Zone          string `mapstructure:"zone"`
+	Bucket        string `mapstructure:"bucket"`
+	AccessKey     string `mapstructure:"access-key"`
+	SecretKey     string `mapstructure:"secret-key"`
+	ImgPath       string `mapstructure:"img-path"`
+	UseHttps      bool   `mapstructure:"use-https"`
+	UseCdnDomains bool   `mapstructure:"use-cdn-domains"` //
 }
 
 type JaegerConfig struct {
