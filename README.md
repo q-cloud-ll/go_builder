@@ -11,6 +11,7 @@
 - 七牛云oss文件上传
 - 使用依赖倒置原则抽象dao层
 - dockerfile制作镜像，docker-compose编排项目
+- 使用shell脚本自动生成dao、cache、service、svc模板代码
 
 准备实现：
 
@@ -74,7 +75,11 @@
 | `--app`       | 全局响应       | 返回json数据的封装，success & failed                |
 | `--snowflake` | 雪花算法工具包 | 生成int64的id                                       |
 
-## 三、docker的使用
+### 三、关于gencode自动生成代码
+
+gencode脚本在deploy/gencode/gencode.sh中，首先进入gencode文件目录，如果我要生成关于user的代码，命令：**./gencode.sh user**，会生成对应的svc、service、dao、cache模板代码。后续考虑单独抽出来，放入gopath/bin目录下
+
+### 四、docker的使用
 
 #### 1、使用dockerfile制作镜像
 
