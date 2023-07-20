@@ -25,7 +25,6 @@ func UploadFileHandler(c *gin.Context) {
 		app.ResponseErrorWithMsg(c, "图片不能超过"+strconv.Itoa(consts.UploadMaxM)+"M")
 		return
 	}
-
 	contentType := header.Header.Get("Content-Type")
 
 	fileBytes, err := ioutil.ReadAll(file)
