@@ -42,13 +42,6 @@ es:
   es_port: 9200
   es_index: mylog
 
-rabbitmq:
-  rabbitmq_host: 127.0.0.1
-  rabbitmq_port: 5672
-  rabbitmq: amqp
-  rabbitmq_user: root
-  rabbitmq_password: 123456
-
 jaeger:
   addr: 127.0.0.1:6831
   type: const
@@ -87,3 +80,13 @@ qiniu-oss:
 local:
   host:
   path:
+
+kafka:
+  disableConsumer:
+    debug: true
+    address: 127.0.0.1:9092
+    required-ack: -1 # 发送完数据后是否需要拿多少个副本确认 -1 需要全部
+    read-timeout: 30 # 默认30s
+    write-timeout: 30 # 默认30s
+    max-open-requests: 5  # 在发送阻塞之前，允许有多少个未完成的请求，默认为5
+    partition: 2 # 分区生成方案 0根据topic进行hash、1随机、2轮询

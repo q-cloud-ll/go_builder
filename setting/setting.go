@@ -17,11 +17,12 @@ import (
 var Conf = new(AppConfig)
 
 type AppConfig struct {
-	Name             string `mapstructure:"name"`
-	Mode             string `mapstructure:"mode"`
-	Version          string `mapstructure:"version"`
-	DbType           string `mapstructure:"db-type"`
-	Port             int    `mapstructure:"port"`
+	Name             string                  `mapstructure:"name"`
+	Mode             string                  `mapstructure:"mode"`
+	Version          string                  `mapstructure:"version"`
+	DbType           string                  `mapstructure:"db-type"`
+	Port             int                     `mapstructure:"port"`
+	KafKa            map[string]*KafkaConfig `mapstructure:"kafka"`
 	*CORS            `mapstructure:"cors"`
 	*JWT             `mapstructure:"jwt"`
 	*SnowflakeConfig `mapstructure:"snowflake"`
@@ -30,9 +31,19 @@ type AppConfig struct {
 	*LogConfig       `mapstructure:"log"`
 	*EsConfig        `mapstructure:"es"`
 	*JaegerConfig    `mapstructure:"jaeger"`
-	*RabbitMqConfig  `mapstructure:"rabbitmq"`
 	*MySQLConfig     `mapstructure:"mysql"`
 	*RedisConfig     `mapstructure:"redis"`
+}
+
+type KafkaConfig struct {
+	DisableConsumer bool   `mapstructure:"disableConsumer"`
+	Debug           bool   `mapstructure:"debug"`
+	Address         string `mapstructure:"address"`
+	ReadTimeout     int64  `mapstructure:"read-timeout"`
+	WriteTimeout    int64  `mapstructure:"write-timeout"`
+	RequiredAck     int    `mapstructure:"required-ack"`
+	MaxOpenRequests int    `mapstructure:"max-open-requests"`
+	Partition       int    `mapstructure:"partition"`
 }
 
 type LocalConfig struct {
@@ -56,14 +67,6 @@ type JaegerConfig struct {
 	Type     string  `mapstructure:"type"`
 	Param    float64 `mapstructure:"param"`
 	LogSpans bool    `mapstructure:"log-spans"`
-}
-
-type RabbitMqConfig struct {
-	RabbitMQ         string `mapstructure:"rabbitmq"`
-	RabbitMQUser     string `mapstructure:"rabbitmq_user"`
-	RabbitMQPassWord string `mapstructure:"rabbitmq_password"`
-	RabbitMQHost     string `mapstructure:"rabbitmq_host"`
-	RabbitMQPort     string `mapstructure:"rabbitmq_port"`
 }
 
 type EsConfig struct {
