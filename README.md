@@ -88,7 +88,7 @@ gencode脚本在deploy/gencode/gencode.sh中，首先进入gencode文件目录�
 
 2、配置的go-stash.yaml也在deploy下，挂在所需要的配置文件进docker
 
-![image-20230729213056076](/Users/mac/Desktop/makerdown笔记/面试/image-20230729213056076.png)
+![Image text](doc/elk-flow.png)
 
 最终运行`docker-compose -f docker-compose-env.yml up -d`运行起来elk环境，最终访问kibana即可
 
