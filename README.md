@@ -13,10 +13,11 @@
 - dockerfile制作镜像，docker-compose编排项目
 - 使用shell脚本自动生成dao、cache、service、svc模板代码
 
-准备实现：
+- elk日志收集系统
+
+准备实现
 
 - jaeger的链路追踪收集到jaeger-ui
-- elk日志收集系统
 
 ### 2、项目目的
 
@@ -79,7 +80,19 @@
 
 gencode脚本在deploy/gencode/gencode.sh中，首先进入gencode文件目录，如果我要生成关于user的代码，命令：**./gencode.sh user**，会生成对应的svc、service、dao、cache模板代码。后续考虑单独抽出来，放入gopath/bin目录下
 
-### 四、docker的使用
+### 四、关于ELK日志系统分析
+
+使用的是filebeat收集业务数据发送到 -> kafka消息队列 <- 使用go-stash消费kafka当中的日志数据 -> 发送到es里 <- 最后收集进kibana展示
+
+1、配置的filebeat.yml在deploy下，挂在到docker-compose
+
+2、配置的go-stash.yaml也在deploy下，挂在所需要的配置文件进docker
+
+![image-20230729213056076](/Users/mac/Desktop/makerdown笔记/面试/image-20230729213056076.png)
+
+最终运行`docker-compose -f docker-compose-env.yml up -d`运行起来elk环境，最终访问kibana即可
+
+### 五、docker的使用
 
 #### 1、使用dockerfile制作镜像
 
