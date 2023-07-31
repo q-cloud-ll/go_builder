@@ -77,6 +77,7 @@
 | `--snowflake` | 雪花算法工具包 | 生成int64的id                                       |
 
 ### 三、关于gencode自动生成代码
+使用的是shell脚本实现
 
 gencode脚本在deploy/gencode/gencode.sh中，首先进入gencode文件目录，如果我要生成关于user的代码，命令：**./gencode.sh user**，会生成对应的svc、service、dao、cache模板代码。后续考虑单独抽出来，放入gopath/bin目录下
 
