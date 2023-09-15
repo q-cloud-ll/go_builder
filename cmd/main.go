@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"project/logger"
+	"project/repository/cache"
 	"project/repository/db/dao"
 	"project/repository/track"
 	"project/router"
@@ -34,7 +35,7 @@ func loadingConfig() {
 	setting.Init()
 	logger.Init()
 	dao.InitMysql()
-	//cache.InitRedis()
+	cache.InitRedis()
 	//es.InitEs()
 	//kafka.InitKafka()
 	//rabbitmq.InitRabbitMQ()

@@ -2,7 +2,7 @@ name: "go_builder"
 mode: "dev"
 port: 8888
 db-type: "mysql"
-version: "v0.0.1"
+version: "v1.0.1"
 
 # jwt configuration
 jwt:
@@ -52,17 +52,17 @@ mysql:
   host: 127.0.0.1
   port: 3306
   user: root
-  password: 123456
+  password: 11223344
   dbname: go_builder
   config: charset=utf8mb4&parseTime=true&loc=Local
-  log-mode: "debug"
+  log-mode: debug
   log-zap: false
   max_idle_conns: 10
   max_open_conns: 100
 
 redis:
   addr: 127.0.0.1:6379
-  password: 123456
+  password: 11223344
   db: 0
   pool_size: 100
 
